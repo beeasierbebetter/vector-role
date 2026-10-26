@@ -1,0 +1,8 @@
+---
+_vector_download_url: >-
+  https://github.com/vectordotdev/vector/releases/download/v{{
+  vector_version }}/vector_{{ vector_version }}-1_amd64.deb
+_vector_package_path: "/var/cache/vector_{{ vector_version }}-1_amd64.deb"
+_vector_config_path: /etc/vector/vector.yaml
+_vector_data_dir: /var/lib/vector
+_vector_service_name: vector

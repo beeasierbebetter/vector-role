@@ -1,0 +1,35 @@
+---
+- name: Vector | Download package
+  ansible.builtin.get_url:
+    url: "{{ _vector_download_url }}"
+    dest: "{{ _vector_package_path }}"
+    mode: "0644"
+
+- name: Vector | Install package
+  ansible.builtin.apt:
+    deb: "{{ _vector_package_path }}"
+    state: present
+  notify: Vector | Restart service
+
+- name: Vector | Create data directory
+  ansible.builtin.file:
+    path: "{{ _vector_data_dir }}"
+    state: directory
+    owner: vector
+    group: vector
+    mode: "0755"
+
+- name: Vector | Configure
+  ansible.builtin.template:
+    src: vector.yaml.j2
+    dest: "{{ _vector_config_path }}"
+    owner: root
+    group: vector
+    mode: "0640"
+  notify: Vector | Restart service
+
+- name: Vector | Enable and start service
+  ansible.builtin.service:
+    name: "{{ _vector_service_name }}"
+    state: started
+    enabled: true

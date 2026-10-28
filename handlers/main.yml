@@ -3,3 +3,4 @@
   ansible.builtin.service:
     name: "{{ _vector_service_name }}"
     state: restarted
+  when: vector_manage_service | bool

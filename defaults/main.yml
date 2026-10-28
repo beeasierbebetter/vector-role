@@ -11,3 +11,5 @@ vector_config:
       inputs: [internal]
       encoding:
         codec: json
+
+vector_manage_service: true

@@ -1,0 +1,10 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Install user management tools
+      ansible.builtin.dnf:
+        name: shadow-utils
+        state: present

@@ -1,0 +1,18 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Validate Vector configuration
+      ansible.builtin.command:
+        cmd: /usr/bin/vector validate --no-environment /etc/vector/vector.yaml
+      register: vector_validation
+      changed_when: false
+      failed_when: false
+
+    - name: Assert that Vector configuration is valid
+      ansible.builtin.assert:
+        that:
+          - vector_validation.rc == 0
+        fail_msg: "{{ vector_validation.stdout }} {{ vector_validation.stderr }}"

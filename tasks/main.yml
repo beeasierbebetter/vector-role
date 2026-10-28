@@ -42,3 +42,4 @@
     name: "{{ _vector_service_name }}"
     state: started
     enabled: true
+  when: vector_manage_service | bool

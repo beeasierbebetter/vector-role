@@ -1,7 +1,7 @@
 Vector role
 =========
 
-Role install and configure Vector on Ubuntu 24.04
+Install and configure Vector on Ubuntu 24.04 and Oracle Linux 8 (x86_64).
 
 Requirements
 ------------
@@ -38,3 +38,20 @@ Author Information
 ------------------
 
 Eugenie Kotukov
+
+Testing
+-------
+
+The default Molecule scenario tests the role on Ubuntu 24.04 and Oracle Linux 8
+using Docker containers with systemd.
+
+The scenario checks idempotence, configuration file presence,
+configuration validity, service startup, and service enablement.
+
+Tested with Ansible Core 2.16.3, Molecule 4.0.4, and molecule-docker 2.1.0.
+
+Run from the role root:
+
+```bash
+molecule test -s default
+```

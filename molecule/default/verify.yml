@@ -1,0 +1,39 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Check Vector configuration file
+      ansible.builtin.stat:
+        path: /etc/vector/vector.yaml
+      register: vector_config_file
+
+    - name: Assert that the configuration file exists
+      ansible.builtin.assert:
+        that:
+          - vector_config_file.stat.exists
+          - vector_config_file.stat.isreg
+
+    - name: Validate Vector configuration
+      ansible.builtin.command:
+        cmd: /usr/bin/vector validate --no-environment /etc/vector/vector.yaml
+      register: vector_validation
+      changed_when: false
+      failed_when: false
+
+    - name: Assert that the configuration is valid
+      ansible.builtin.assert:
+        that:
+          - vector_validation.rc == 0
+        fail_msg: "{{ vector_validation.stdout }} {{ vector_validation.stderr }}"
+
+    - name: Collect service facts
+      ansible.builtin.service_facts:
+
+    - name: Assert that Vector is running and enabled
+      ansible.builtin.assert:
+        that:
+          - "'vector.service' in ansible_facts.services"
+          - ansible_facts.services['vector.service'].state == 'running'
+          - ansible_facts.services['vector.service'].status == 'enabled'

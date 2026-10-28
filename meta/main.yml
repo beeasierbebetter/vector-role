@@ -1,8 +1,9 @@
 ---
 galaxy_info:
+  namespace: beeasierbebetter
   role_name: vector
   author: Eugenie Kotukov
-  description: Install and configure Vector on Ubuntu 24.04 amd64
+  description: Install and configure Vector on Ubuntu 24.04 and Oracle Linux 8 x86_64
   license: MIT
   min_ansible_version: "2.16"
   galaxy_tags:

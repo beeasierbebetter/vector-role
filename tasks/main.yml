@@ -5,10 +5,19 @@
     dest: "{{ _vector_package_path }}"
     mode: "0644"
 
-- name: Vector | Install package
+- name: Vector | Install DEB package
   ansible.builtin.apt:
     deb: "{{ _vector_package_path }}"
     state: present
+  when: ansible_os_family == 'Debian'
+  notify: Vector | Restart service
+
+- name: Vector | Install RPM package
+  ansible.builtin.dnf:
+    name: "{{ _vector_package_path }}"
+    state: present
+    disable_gpg_check: true
+  when: ansible_os_family == 'RedHat'
   notify: Vector | Restart service
 
 - name: Vector | Create data directory

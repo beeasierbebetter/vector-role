@@ -1,0 +1,17 @@
+FROM {{ item.image }}
+
+ENV container=docker
+
+{% if 'ubuntu' in item.image %}
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      python3 python3-apt sudo systemd systemd-sysv dbus ca-certificates && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+{% else %}
+RUN dnf install -y \
+      python3 python3-dnf sudo systemd dbus ca-certificates shadow-utils && \
+    dnf clean all
+{% endif %}
+
+STOPSIGNAL SIGRTMIN+3
+CMD ["/sbin/init"]
